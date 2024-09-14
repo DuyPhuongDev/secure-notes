@@ -37,6 +37,4 @@ public class AdminController {
         return new ResponseEntity<>(userService.getUserById(id),
                 HttpStatus.OK);
     }
-
-
 }
