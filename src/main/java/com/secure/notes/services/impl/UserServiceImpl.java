@@ -8,6 +8,7 @@ import com.secure.notes.repositories.RoleRepository;
 import com.secure.notes.repositories.UserRepository;
 import com.secure.notes.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public void updateUserRole(Long userId, String roleName) {
@@ -72,5 +76,42 @@ public class UserServiceImpl implements UserService {
         return user.orElseThrow(() -> new RuntimeException("User not found with username: " + username));
     }
 
+    @Override
+    public void updateAccountLockStatus(Long userId, boolean lockStatus) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setAccountNonLocked(lockStatus);
+        userRepository.save(user);
+    }
 
+    @Override
+    public void updateExpiryStatus(Long userId, boolean expiryStatus) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setAccountNonExpired(expiryStatus);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateEnabledStatus(Long userId, boolean enabledStatus) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setAccountNonExpired(enabledStatus);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateCredentialsStatus(Long userId, boolean credentialsStatus) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setCredentialsNonExpired(credentialsStatus);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updatePassword(Long userId, String newPassword) {
+        try {
+            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+        }catch (Exception e){
+            throw new RuntimeException("Failed to update password");
+        }
+    }
 }

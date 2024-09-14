@@ -13,4 +13,14 @@ public interface UserService {
     UserDTO getUserById(Long id);
 
     User findByUsername(String username);
+
+    void updateAccountLockStatus(Long userId, boolean lockStatus);
+
+    void updateExpiryStatus(Long userId, boolean expiryStatus);
+
+    void updateEnabledStatus(Long userId, boolean enabledStatus);
+
+    void updateCredentialsStatus(Long userId, boolean credentialsStatus);
+
+    void updatePassword(Long userId, String newPassword);
 }
