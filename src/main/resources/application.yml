@@ -1,0 +1,55 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23liptpwSXzTBhVpiy
+            client-secret: 307564a7db2548794cce50123d647685038034fc
+            scope:
+              - read:user
+              - user:email
+          google:
+            client-id: 64185287998-331b04pm7puppgo15cm7tm9toi6rnsvd.apps.googleusercontent.com
+            client-secret: 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
+
+  application:
+    name: notes
+  datasource:
+    url: jdbc:mysql://localhost:3306/securenotes
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect
+  app:
+    jwtSecret: mySecretKey123912738aopsgjnspkmndfsopkvajoirjg94gf2opfng2moknm
+    jwtExpirationMs: 172800000
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: duyphuongtm2302@gmail.com
+    password: xwjkaudwijgawdpz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+frontend:
+  url: http://localhost:3000
+
+logging:
+  level.org:
+    springframework:
+      security: DEBUG
+      orm.jpa.JpaBaseConfiguration: ERROR
+    hibernate:
+      SQL: OFF
+      type.descriptor.sql.BasicBinder: OFF
+      orm.deprecation: ERROR
+      engine.transaction.jta.platform.internal.JtaPlatformInitiator: ERROR
